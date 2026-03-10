@@ -5,6 +5,14 @@ dotenv.config();
 
 const resend = new Resend(process.env.RESEND_KEY);
 
+// Sanitise user input to prevent HTML injection in email body
+const safe = (s) =>
+  String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
@@ -23,15 +31,16 @@ export default async function handler(req, res) {
 
   try {
     await resend.emails.send({
-      from: `${name} <no-reply@resend.dev>`,
-      to: ["maxitara10@gmail.com"], // change to your real email
+      from: `Ashley Davey Photography <no-reply@resend.dev>`,
+      to: ["maxitara10@gmail.com"],
       replyTo: email,
-      subject: subject || `New message from ${name}`,
+      subject: subject ? safe(subject) : `New message from ${safe(name)}`,
       html: `
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Name:</strong> ${safe(name)}</p>
+        <p><strong>Email:</strong> ${safe(email)}</p>
+        <p><strong>Subject:</strong> ${safe(subject || "(none)")}</p>
         <p><strong>Message:</strong></p>
-        <p>${message}</p>
+        <p>${safe(message).replace(/\n/g, "<br>")}</p>
       `,
     });
 
