@@ -1,0 +1,480 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --black: #0a0a0a;
+  --dark-grey: #1a1a1a;
+  --medium-grey: #2a2a2a;
+  --light-grey: #666;
+  --lighter-grey: #999;
+  --white: #f5f5f5;
+  --accent: #e0e0e0;
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 48px;
+  --spacing-xxl: 64px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--black);
+  color: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  padding: var(--spacing-md) var(--spacing-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  border-bottom: 1px solid var(--medium-grey);
+  transition: background-color 0.3s ease;
+}
+
+.logo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--white);
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--spacing-lg);
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--lighter-grey);
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--white);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--white);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+.nav-links a.active {
+  color: var(--white);
+}
+
+main {
+  margin-top: 80px;
+  min-height: calc(100vh - 80px);
+}
+
+.hero {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 300;
+  letter-spacing: 4px;
+  margin-bottom: var(--spacing-md);
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.hero p {
+  font-size: 1rem;
+  color: var(--lighter-grey);
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: fadeInUp 1s ease 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.page-hero {
+  padding: var(--spacing-xxl) var(--spacing-xl);
+  text-align: center;
+  border-bottom: 1px solid var(--medium-grey);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.page-hero h1 {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 300;
+  letter-spacing: 3px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.page-hero p {
+  font-size: 1.1rem;
+  color: var(--lighter-grey);
+  letter-spacing: 0.5px;
+}
+
+.content-section {
+  padding: 0 var(--spacing-xl) var(--spacing-xxl);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+}
+
+.album-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: var(--dark-grey);
+  transition: transform 0.4s ease;
+}
+
+.album-card:hover {
+  transform: translateY(-8px);
+}
+
+.album-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease, opacity 0.4s ease;
+}
+
+.album-card:hover img {
+  transform: scale(1.05);
+  opacity: 0.7;
+}
+
+.album-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-lg);
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.95), transparent);
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+
+.album-card:hover .album-info {
+  transform: translateY(0);
+}
+
+.album-info h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-xs);
+  color: var(--white);
+}
+
+.album-info span {
+  font-size: 0.9rem;
+  color: var(--lighter-grey);
+  letter-spacing: 1px;
+}
+
+/* common gallery grid used by all album pages */
+.gallery-grid,
+.church-grid,
+.indonesia-grid {
+  display: grid;
+  /* make base thumbnails smaller so galleries appear tighter */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl) 0;
+}
+
+/* per-gallery adjustments */
+.church-grid {
+  /* ensure items pack tightly, no gaps */
+  grid-auto-flow: dense;
+}
+.youth-grid {
+  /* fix to 2 columns x 3 rows layout; nested grids handled in markup */
+  grid-template-columns: repeat(2, 1fr) !important;
+}
+
+/* indonesia should be the tightest and most compact */
+.indonesia-grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--spacing-xs);
+  /* pack tightly to eliminate gaps produced by spanning items */
+  grid-auto-flow: dense;
+}
+
+/* simple rule for any image inside a gallery grid */
+.gallery-grid img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* removed loader-specific photo-item styles
+   individual pages can apply their own classes or inline styles
+   for creative placements if desired */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xxl);
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.about-text p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--lighter-grey);
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  opacity: 0.95;
+}
+
+.bts-intro {
+  max-width: 800px;
+  margin: 0 auto var(--spacing-xxl);
+  text-align: center;
+}
+
+.bts-intro p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--lighter-grey);
+}
+
+.contact-form-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-form-container > p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--lighter-grey);
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: var(--spacing-sm);
+  background-color: var(--dark-grey);
+  border: 1px solid var(--medium-grey);
+  border-radius: 2px;
+  color: var(--white);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--light-grey);
+  background-color: var(--medium-grey);
+}
+
+.contact-form button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--white);
+  color: var(--black);
+  border: none;
+  border-radius: 2px;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: var(--spacing-sm);
+}
+
+.contact-form button:hover {
+  background-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.contact-form button:active {
+  transform: translateY(0);
+}
+
+#formStatus {
+  text-align: center;
+  color: var(--lighter-grey);
+  font-size: 0.95rem;
+}
+
+/* related albums section appears at bottom of each gallery page */
+.related-albums {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl) 0;
+}
+.related-albums .album-card {
+  flex: 1 1 200px;
+  max-width: 220px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.related-albums .album-card img {
+  aspect-ratio: 4/5;
+  object-fit: cover;
+}
+.related-albums .album-card .album-info {
+  position: static;
+  background: transparent;
+  padding: var(--spacing-xs) 0;
+  color: var(--white);
+}
+
+/* nested grids inside youth gallery row2 */
+.subgrid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xs);
+}
+.subgrid-9 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xs);
+}
+
+footer {
+  text-align: center;
+  padding: var(--spacing-xl);
+  border-top: 1px solid var(--medium-grey);
+  color: var(--light-grey);
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  margin-top: var(--spacing-xxl);
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: var(--spacing-sm) var(--spacing-md);
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .nav-links {
+    gap: var(--spacing-md);
+  }
+
+  .album-grid {
+    grid-template-columns: 1fr;
+    padding: var(--spacing-md);
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .photo-item.wide,
+  .photo-item.large {
+    grid-column: span 1;
+  }
+
+  .photo-item.tall,
+  .photo-item.large {
+    grid-row: span 1;
+  }
+
+  /* stack galleries on small screens */
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
